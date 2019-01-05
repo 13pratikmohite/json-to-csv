@@ -1,0 +1,217 @@
+List of json from one  file map to csv 
+
+
+
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+//http://jaladk.blogspot.com/2013/06/dynamic-json-parsing-in-java.html
+
+public class JsonParsing$Write {
+
+
+	public static JSONObject jsonObject = null;
+	public static Map<String, Map<Integer,String>> L3 = new HashMap<String, Map<Integer,String>>();
+	//need to identify which list of rows is max means maximum no of rows or json in file
+	public static String parent,temp;
+	public static int rowIndex=0;
+	public static List<String> printRow=new ArrayList<String>();
+	public static int FirstIteration=0;
+	public static String []parentList;
+	public static List<String> Printlist=new ArrayList<String>();
+	public static int maxSize=0;
+
+
+	public static void main(String[] args) throws IOException {
+
+		FileInputStream inputStream = new FileInputStream("InputFile with path");
+		//drawback file should be in UTF-8 convention 
+		
+		try (Scanner sc = new Scanner(inputStream, "UTF-8")) {
+			while (sc.hasNextLine()) {
+				rowIndex++;
+				String line = sc.nextLine();
+				String[] tokens = line.split("þ"); 
+				JsonParseStart(tokens[2]);// drawback if more than 2 delimiters present , then it will fail						
+			}
+		}	
+		HashMapTest2();
+	}
+
+	public static void HashMapTest2() throws IOException 
+	{	
+		//Logic for L3  for printing	
+		//D:\Pratik\Java\Extract\GetPerson_RecordServiceV4.csv
+		
+		
+		Set key3=L3.keySet();
+		for (String s:L3.keySet()) {
+			if(Printlist.size()==1)
+			{
+				Printlist.set(0,(Printlist.get(0)+","+s));
+			}
+			else
+			{
+				Printlist.add(0, s);
+			}
+			
+		}
+//above is for column name print 
+		int FirstColumn=1;
+		for (Iterator i = key3.iterator(); i.hasNext();) {			
+			String key = (String) i.next(); // ContentRightsTokens_Name
+			Set Rows=L3.get(key).keySet(); //[1, 2, 3, 4, 5]
+			Iterator j=Rows.iterator();
+			int key2=1;	
+					for(int r=1;r<=rowIndex;r++)
+					{
+						if(r==1)key2 = (int) j.next();
+						String value = L3.get(key).get(key2);						
+						//check if current r matches with key2 
+						if (r==key2)
+						{
+							try {
+								String temp=Printlist.get(r)+","+value; //use r or key2
+								Printlist.set(r, temp);
+							}
+							catch(IndexOutOfBoundsException e)
+							{
+								if(FirstColumn==1)
+								{
+									Printlist.add(r,value);
+								}
+								else
+								{
+								String temp2=","+value;
+								Printlist.add(r,temp2);
+								}
+							}
+							finally {
+								if(j.hasNext()) {key2=(int) j.next();}
+							}
+							
+						}
+						else
+						{
+							try {
+								String temp=Printlist.get(r)+","; //use r or key2
+								Printlist.set(r, temp);
+							}
+							catch(IndexOutOfBoundsException e)// this will run only for 1st column 
+							{
+								if(FirstColumn==1)
+								{
+									Printlist.add(r,"");
+								}
+								else
+								{
+								String temp2=","+value;
+								Printlist.add(r,","+temp2);
+								}
+							}
+						}					
+					}
+					FirstColumn++;
+		}	
+		System.out.println("*************************************************");
+		FileWriter fw = new FileWriter("Output File with path",true); 
+		for(String s:Printlist)
+		{
+			fw.write(s+"\n");
+			System.out.println(s);
+		}
+		fw.close();
+		
+	}
+
+	
+	public static void JsonParseStart(String s) {
+		try {
+
+			JSONParser jsonParser = new JSONParser();
+			Object object = jsonParser.parse(s);
+			jsonObject = (JSONObject) object;
+			parseJson(jsonObject);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public static void getArray(Object object2) throws ParseException {
+
+		JSONArray jsonArr = (JSONArray) object2;
+		for (int k = 0; k < jsonArr.size(); k++) {
+			if (jsonArr.get(k) instanceof JSONObject) {
+				parseJson((JSONObject) jsonArr.get(k));
+			} else {
+				//need to add logic if array within array 
+			}
+		}
+	}
+
+	public static void parseJson(JSONObject jsonObject) throws ParseException {
+		Set<Object> set = jsonObject.keySet();		
+		
+		if (FirstIteration==0) {
+			parentList=Arrays.copyOf(set.toArray(), set.size(), String[].class);
+			FirstIteration++;
+			parent =parentList[0];
+		}
+
+		List<Object> list = new ArrayList<Object>(set);
+		list.sort(Collections.reverseOrder());
+		Set<Object> result = new LinkedHashSet<>(new ArrayList<Object>(list));		
+		Iterator<Object>iterator=result.iterator();		
+		//[RequestContext, Features, Documents]
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();	
+				for(String s:parentList) {
+					if(s.equals(obj.toString())) {parent=s;}
+				}
+			if (jsonObject.get(obj) instanceof JSONArray) {								
+				getArray(jsonObject.get(obj));
+			} else if (jsonObject.get(obj) instanceof JSONObject) 
+				{			
+					parseJson((JSONObject) jsonObject.get(obj));				
+			} else {
+				temp=parent+"_"+obj.toString();				
+				if (L3.containsKey(temp)) 
+				{  
+					//if any column Already exist 
+					//add logic to check if that columns is with same rowIndex then appnd new value in same cell by 
+					//appending $ in between 
+					//System.out.println(L3.get(temp).);
+						if(L3.get(temp).containsKey(rowIndex)) {
+							//System.out.println(L3.get(temp).get(rowIndex).toString());
+							L3.get(temp).put(rowIndex,L3.get(temp).get(rowIndex).toString()+"$"+ jsonObject.get(obj).toString());						
+						}
+						else
+						{
+							L3.get(temp).put(rowIndex, jsonObject.get(obj).toString());
+						}	
+				} 
+				else {									
+					L3.put(temp, new HashMap<Integer,String>());
+					L3.get(temp).put(rowIndex, jsonObject.get(obj).toString());				
+				}		
+			}
+		}
+	}
+	
+}
