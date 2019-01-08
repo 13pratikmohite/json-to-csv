@@ -39,7 +39,7 @@ public class JsonParsing$WriteOriginal {
 
 	public static void main(String[] args) throws IOException {
 
-		FileInputStream inputStream = new FileInputStream("C:\\Users\\pmohite\\Downloads\\V4_GetPerson.csv.tar\\v4Sample.csv");
+		FileInputStream inputStream = new FileInputStream("\\v4Sample.csv");
 		//drawback file should be in UTF-8 convention 
 		
 		try (Scanner sc = new Scanner(inputStream, "UTF-8")) {
@@ -134,7 +134,7 @@ public class JsonParsing$WriteOriginal {
 					FirstColumn++;
 		}	
 		System.out.println("*************************************************");
-		FileWriter fw = new FileWriter("C:\\Users\\pmohite\\Downloads\\V4_GetPerson.csv.tar\\V4_GetPerson\\op4.csv",true); 
+		FileWriter fw = new FileWriter("\\op4.csv",true); 
 		for(String s:Printlist)
 		{
 			fw.write(s+"\n");
