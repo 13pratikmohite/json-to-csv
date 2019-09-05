@@ -1,0 +1,2902 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html -->
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/2549344219-widget_css_bundle.css" rel="stylesheet" type="text/css">
+<meta content="3WSSGGgy9Ajh5mSwrXalmmUCP+iq2C4yMntTrRC6C/w=" name="verify-v1">
+<meta content="9CC64CCE44C91C9D709544538DC76A3C" name="msvalidate.01">
+
+<meta content="blogger" name="generator">
+<link href="http://theworkaholic.blogspot.com/favicon.ico" rel="icon" type="image/x-icon">
+<link href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html" rel="canonical">
+<link rel="alternate" type="application/atom+xml" title="Workaholic - Atom" href="http://theworkaholic.blogspot.com/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="Workaholic - RSS" href="http://theworkaholic.blogspot.com/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="Workaholic - Atom" href="https://www.blogger.com/feeds/10045102/posts/default">
+
+<link rel="alternate" type="application/atom+xml" title="Workaholic - Atom" href="http://theworkaholic.blogspot.com/feeds/4725181315293700707/comments/default">
+<!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
+<link href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/PostTemplate.png" rel="image_src">
+<meta content="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html" property="og:url">
+<meta content="Graphs for Jmeter using Elasticsearch and Kibana" property="og:title">
+<meta content=" Disclaimer : I have just done some initial tests with  Elasticsearch (Thank you Google) - I have no production experience with  it and I ha..." property="og:description">
+<meta content="http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/w1200-h630-p-k-no-nu/PostTemplate.png" property="og:image">
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>Workaholic: Graphs for Jmeter using Elasticsearch and Kibana</title>
+<style id="page-skin-1" type="text/css"><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Minima Stretch
+Date:     26 Feb 2004
+----------------------------------------------- */
+/* Variable definitions
+====================
+<Variable name="bgcolor" description="Page Background Color"
+type="color" default="#fff">
+<Variable name="textcolor" description="Text Color"
+type="color" default="#333">
+<Variable name="linkcolor" description="Link Color"
+type="color" default="#58a">
+<Variable name="pagetitlecolor" description="Blog Title Color"
+type="color" default="#666">
+<Variable name="descriptioncolor" description="Blog Description Color"
+type="color" default="#999">
+<Variable name="titlecolor" description="Post Title Color"
+type="color" default="#c60">
+<Variable name="bordercolor" description="Border Color"
+type="color" default="#ccc">
+<Variable name="sidebarcolor" description="Sidebar Title Color"
+type="color" default="#999">
+<Variable name="sidebartextcolor" description="Sidebar Text Color"
+type="color" default="#666">
+<Variable name="visitedlinkcolor" description="Visited Link Color"
+type="color" default="#999">
+<Variable name="bodyfont" description="Text Font"
+type="font" default="normal normal 100% Georgia, Serif">
+<Variable name="headerfont" description="Sidebar Title Font"
+type="font"
+default="normal normal 78% 'Trebuchet MS',Trebuchet,Arial,Verdana,Sans-serif">
+<Variable name="pagetitlefont" description="Blog Title Font"
+type="font"
+default="normal normal 200% Georgia, Serif">
+<Variable name="descriptionfont" description="Blog Description Font"
+type="font"
+default="normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif">
+<Variable name="postfooterfont" description="Post Footer Font"
+type="font"
+default="normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif">
+<Variable name="startSide" description="Start side in blog language"
+type="automatic" default="left">
+<Variable name="endSide" description="End side in blog language"
+type="automatic" default="right">
+*/
+/* Use this with templates/template-twocol.html */
+body {
+background:#ffffff;
+margin:0;
+color:#333333;
+font:x-small Georgia Serif;
+font-size/* */:/**/small;
+font-size: /**/small;
+text-align: center;
+}
+a:link {
+color:#5588aa;
+text-decoration:none;
+}
+a:visited {
+color:#999999;
+text-decoration:none;
+}
+a:hover {
+color:#cc6600;
+text-decoration:underline;
+}
+a img {
+border-width:0;
+}
+/* Header
+-----------------------------------------------
+*/
+#header-wrapper {
+margin:0 2% 10px;
+border:1px solid #cccccc;
+}
+#header {
+margin: 5px;
+border: 1px solid #cccccc;
+text-align: center;
+color:#666666;
+}
+#header-inner {
+background-position: center;
+margin-left: auto;
+margin-right: auto;
+}
+#header h1 {
+margin:5px 5px 0;
+padding:15px 20px .25em;
+line-height:1.2em;
+text-transform:uppercase;
+letter-spacing:.2em;
+font: normal normal 200% Georgia, Serif;
+}
+#header a {
+color:#666666;
+text-decoration:none;
+}
+#header a:hover {
+color:#666666;
+}
+#header .description {
+margin:0 5px 5px;
+padding:0 20px 15px;
+text-transform:uppercase;
+letter-spacing:.2em;
+line-height: 1.4em;
+font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+color: #999999;
+}
+#header img {
+margin-left: auto;
+margin-right: auto;
+}
+/* Outer-Wrapper
+----------------------------------------------- */
+#outer-wrapper {
+margin:0;
+padding:10px;
+text-align:left;
+font: normal normal 100% Georgia, Serif;
+}
+#main-wrapper {
+margin-left: 2%;
+width: 67%;
+float: left;
+display: inline;       /* fix for doubling margin in IE */
+word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+overflow: hidden;      /* fix for long non-text content breaking IE sidebar float */
+}
+#sidebar-wrapper {
+margin-right: 2%;
+width: 25%;
+float: right;
+display: inline;       /* fix for doubling margin in IE */
+word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+overflow: hidden;      /* fix for long non-text content breaking IE sidebar float */
+}
+/* Headings
+----------------------------------------------- */
+h2 {
+margin:1.5em 0 .75em;
+font:normal normal 78% 'Trebuchet MS',Trebuchet,Arial,Verdana,Sans-serif;
+line-height: 1.4em;
+text-transform:uppercase;
+letter-spacing:.2em;
+color:#999999;
+}
+/* Posts
+-----------------------------------------------
+*/
+h2.date-header {
+margin:1.5em 0 .5em;
+}
+.post {
+margin:.5em 0 1.5em;
+border-bottom:1px dotted #cccccc;
+padding-bottom:1.5em;
+}
+.post h3 {
+margin:.25em 0 0;
+padding:0 0 4px;
+font-size:140%;
+font-weight:normal;
+line-height:1.4em;
+color:#cc6600;
+}
+.post h3 a, .post h3 a:visited, .post h3 strong {
+display:block;
+text-decoration:none;
+color:#cc6600;
+font-weight:normal;
+}
+.post h3 strong, .post h3 a:hover {
+color:#333333;
+}
+.post-body {
+margin:0 0 .75em;
+line-height:1.6em;
+}
+.post-body blockquote {
+line-height:1.3em;
+}
+.post-footer {
+margin: .75em 0;
+color:#999999;
+text-transform:uppercase;
+letter-spacing:.1em;
+font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+line-height: 1.4em;
+}
+.comment-link {
+margin-left:.6em;
+}
+.post img {
+padding:4px;
+border:1px solid #cccccc;
+}
+.post blockquote {
+margin:1em 20px;
+}
+.post blockquote p {
+margin:.75em 0;
+}
+/* Comments
+----------------------------------------------- */
+#comments h4 {
+margin:1em 0;
+font-weight: bold;
+line-height: 1.4em;
+text-transform:uppercase;
+letter-spacing:.2em;
+color: #999999;
+}
+#comments-block {
+margin:1em 0 1.5em;
+line-height:1.6em;
+}
+#comments-block .comment-author {
+margin:.5em 0;
+}
+#comments-block .comment-body {
+margin:.25em 0 0;
+}
+#comments-block .comment-footer {
+margin:-.25em 0 2em;
+line-height: 1.4em;
+text-transform:uppercase;
+letter-spacing:.1em;
+}
+#comments-block .comment-body p {
+margin:0 0 .75em;
+}
+.deleted-comment {
+font-style:italic;
+color:gray;
+}
+.feed-links {
+clear: both;
+line-height: 2.5em;
+}
+#blog-pager-newer-link {
+float: left;
+}
+#blog-pager-older-link {
+float: right;
+}
+#blog-pager {
+text-align: center;
+}
+/* Sidebar Content
+----------------------------------------------- */
+.sidebar {
+color: #666666;
+line-height: 1.5em;
+}
+.sidebar ul {
+list-style:none;
+margin:0 0 0;
+padding:0 0 0;
+}
+.sidebar li {
+margin:0;
+padding-top:0;
+padding-right:0;
+padding-bottom:.25em;
+padding-left:15px;
+text-indent:-15px;
+line-height:1.5em;
+}
+.sidebar .widget, .main .widget {
+border-bottom:1px dotted #cccccc;
+margin:0 0 1.5em;
+padding:0 0 1.5em;
+}
+.main .Blog {
+border-bottom-width: 0;
+}
+/* Profile
+----------------------------------------------- */
+.profile-img {
+float: left;
+margin-top: 0;
+margin-right: 5px;
+margin-bottom: 5px;
+margin-left: 0;
+padding: 4px;
+border: 1px solid #cccccc;
+}
+.profile-data {
+margin:0;
+text-transform:uppercase;
+letter-spacing:.1em;
+font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+color: #999999;
+font-weight: bold;
+line-height: 1.6em;
+}
+.profile-datablock {
+margin:.5em 0 .5em;
+}
+.profile-textblock {
+margin: 0.5em 0;
+line-height: 1.6em;
+}
+.profile-link {
+font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+text-transform: uppercase;
+letter-spacing: .1em;
+}
+/* Footer
+----------------------------------------------- */
+#footer {
+width:660px;
+clear:both;
+margin:0 auto;
+padding-top:15px;
+line-height: 1.6em;
+text-transform:uppercase;
+letter-spacing:.1em;
+text-align: center;
+}
+/* Custom
+----------------------------------------------- */
+pre.source-code {
+font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace;
+color: #000000;
+background-color: #eee;
+font-size: 12px;
+border: 1px dashed #999999;
+line-height: 14px;
+padding: 5px;
+overflow: auto;
+width: 100%
+}
+
+--></style>
+<script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/osd.js.download"></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f.txt"></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/cb=gapi.loaded_4" async=""></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/cb=gapi.loaded_3" async=""></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/cb=gapi.loaded_2" async=""></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/cb=gapi.loaded_1" async=""></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/cb=gapi(2).loaded_0" async=""></script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/plusone.js.download" type="text/javascript" gapi_processed="true"></script>
+<link href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/authorization.css" media="all" onload="if(media!=&#39;all&#39;)media=&#39;all&#39;" rel="stylesheet"><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=10045102&amp;zx=327f8f2e-eab3-4045-b07d-6168a9802d6e' rel='stylesheet'/></noscript>
+
+<script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(1).txt"></script><link rel="preload" href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(2).txt" as="script"><script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(2).txt"></script><link rel="preload" href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(3).txt" as="script"><script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(3).txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190828/r20190131/show_ads_impl.js" as="script"><style data-styled-components=""></style><style>.gc-bubbleDefault{background-color:transparent !important;text-align:left;padding:0 !important;margin:0 !important;border:0 !important;table-layout:auto !important}.gc-reset{background-color:transparent !important;border:0 !important;padding:0 !important;margin:0 !important;text-align:left}.pls-bubbleTop{border-bottom:1px solid #ccc !important}.pls-topTail,.pls-vertShimLeft,.pls-contentLeft{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/border_3.gif) !important}.pls-topTail{background-repeat:repeat-x !important;background-position:bottom !important}.pls-vertShim{background-color:#fff !important;text-align:right}.tbl-grey .pls-vertShim{background-color:#f5f5f5 !important}.pls-vertShimLeft{background-repeat:repeat-y !important;background-position:right !important;height:4px}.pls-vertShimRight{height:4px}.pls-confirm-container .pls-vertShim{background-color:#fff3c2 !important}.pls-contentWrap{background-color:#fff !important;position:relative !important;vertical-align:top}.pls-contentLeft{background-repeat:repeat-y;background-position:right;vertical-align:top}.pls-dropRight{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropR_3.png) !important;background-repeat:repeat-y !important;vertical-align:top}.pls-vert,.pls-tailleft,.pls-dropTR .pls-dropBR,.pls-dropBL,.pls-vert img{vertical-align:top}.pls-dropBottom{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleDropB_3.png) !important;background-repeat:repeat-x !important;width:100%;vertical-align:top}.pls-topLeft{background:inherit !important;text-align:right;vertical-align:bottom}.pls-topRight{background:inherit !important;text-align:left;vertical-align:bottom}.pls-bottomLeft{background:inherit !important;text-align:right}.pls-bottomRight{background:inherit !important;text-align:left;vertical-align:top}.pls-tailtop,.pls-tailright,.pls-tailbottom,.pls-tailleft{display:none;position:relative}.pls-tailbottom,.pls-tailtop,.pls-tailright,.pls-tailleft,.pls-dropTR,.pls-dropBR,.pls-dropBL{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleSprite_3.png) !important;background-repeat:no-repeat}.tbl-grey .pls-tailbottom,.tbl-grey .pls-tailtop,.tbl-grey .pls-tailright,.tbl-grey .pls-tailleft,.tbl-grey .pls-dropTR,.tbl-grey .pls-dropBR,.tbl-grey .pls-dropBL{background-image:url(//ssl.gstatic.com/s2/oz/images/stars/po/bubblev1/bubbleSprite-grey.png) !important}.pls-tailbottom{background-position:-23px 0}.pls-confirm-container .pls-tailbottom{background-position:-23px -10px}.pls-tailtop{background-position:-19px -20px}.pls-tailright{background-position:0 0}.pls-tailleft{background-position:-10px 0}.pls-tailtop{vertical-align:top}.gc-bubbleDefault td{line-height:0;font-size:0}.pls-topLeft img,.pls-topRight img,.pls-tailbottom{vertical-align:bottom}.pls-bottomLeft img,.bubbleDropTR,.pls-dropBottomL img,.pls-dropBottom img,.pls-dropBottomR img,.pls-bottomLeft{vertical-align:top}.pls-dropTR{background-position:0 -22px}.pls-dropBR{background-position:0 -27px}.pls-dropBL{background-position:0 -16px}.pls-spacertop,.pls-spacerright,.pls-spacerbottom,.pls-spacerleft{position:static !important}.pls-spinner{bottom:0;position:absolute;left:0;margin:auto;right:0;top:0} </style><script async="" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/lazy.min.js.download"></script></head>
+<body>
+<div class="navbar section" id="navbar"><div class="widget Navbar" data-version="1" id="Navbar1"><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="" tabindex="0" vspace="0" width="100%" id="navbar-iframe" name="navbar-iframe" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/navbar.html"></iframe></div>
+<script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/plusone.js.download" gapi_processed="true"></script>
+<script type="text/javascript">
+      gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+        if (gapi.iframes && gapi.iframes.getContext) {
+          gapi.iframes.getContext().openChild({
+              url: 'https://www.blogger.com/navbar.g?targetBlogID\x3d10045102\x26blogName\x3dWorkaholic\x26publishMode\x3dPUBLISH_MODE_BLOGSPOT\x26navbarType\x3dBLUE\x26layoutType\x3dLAYOUTS\x26searchRoot\x3dhttps://theworkaholic.blogspot.com/search\x26blogLocale\x3den\x26v\x3d2\x26homepageUrl\x3dhttp://theworkaholic.blogspot.com/\x26targetPostID\x3d4725181315293700707\x26blogPostOrPageUrl\x3dhttp://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html\x26vt\x3d-6800202703325491465',
+              where: document.getElementById("navbar-iframe-container"),
+              id: "navbar-iframe"
+          });
+        }
+      });
+    </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div id="outer-wrapper"><div id="wrap2">
+<!-- skip links for text browsers -->
+<span id="skiplinks" style="display:none;">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html#main">skip to main </a> |
+      <a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html#sidebar">skip to sidebar</a>
+</span>
+<div id="header-wrapper">
+<div id="___plusone_0" style="position: absolute; width: 450px; left: -10000px;"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I0_1567663746193" name="I0_1567663746193" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/fastbutton.html" data-gapiattached="true"></iframe></div><g:plusone data-gapiscan="true" data-onload="true" data-gapistub="true"></g:plusone>
+<div class="header section" id="header"><div class="widget Header" data-version="1" id="Header1">
+<div id="header-inner">
+<div class="titlewrapper">
+<h1 class="title">
+<a href="http://theworkaholic.blogspot.com/">
+Workaholic
+</a>
+</h1>
+</div>
+<div class="descriptionwrapper">
+<p class="description"><span>The biggest mistake we could ever make in our lives is to think we work for anybody but ourselves. 
+--Brian Tracy</span></p>
+</div>
+</div>
+</div></div>
+</div>
+<div id="content-wrapper">
+<div id="crosscol-wrapper" style="text-align:center">
+<div class="crosscol no-items section" id="crosscol"></div>
+</div>
+<div id="main-wrapper">
+<div class="main section" id="main"><div class="widget Blog" data-version="1" id="Blog1">
+<div class="blog-posts hfeed">
+
+          <div class="date-outer">
+        
+<h2 class="date-header"><span>Wednesday, May 27, 2015</span></h2>
+
+          <div class="date-posts">
+        
+<div class="post-outer">
+<div class="post hentry uncustomized-post-template" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<meta content="http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/s640/PostTemplate.png" itemprop="image_url">
+<meta content="10045102" itemprop="blogId">
+<meta content="4725181315293700707" itemprop="postId">
+<a name="4725181315293700707"></a>
+<h3 class="post-title entry-title" itemprop="name">
+Graphs for Jmeter using Elasticsearch and Kibana
+</h3>
+<div class="post-header">
+<div class="post-header-line-1"></div>
+</div>
+<div class="post-body entry-content" id="post-body-4725181315293700707" itemprop="description articleBody">
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<i>Disclaimer : I have just done some initial tests with 
+Elasticsearch (Thank you Google) - I have no production experience with 
+it and I have no idea how to set that up. It's possible the example 
+below has really basic mistakes (in which case , please do point them 
+out!). Note also that the easiest way to integrate this is to configure the JMeter result to be a CSV file and simply import that using LogStash - but then I dont have a blog post to write.</i><br>
+<br>
+<br>
+<a href="http://jmeter.apache.org/" target="_blank">JMeter </a>2.13 came out with some added support 
+for a <a href="http://jmeter.apache.org/usermanual/component_reference.html#Backend_Listener" target="_blank">BackendListener </a>i.e. a way to send your results to some store 
+where you can analyze the test results and draw pretty pictures for the powers that be. This was always possible using a 
+custom listener , but the person writing it would have to make it 
+perform reasonably well. The new Listener runs on its own thread with a 
+Buffer so it makes it somewhat easier to implement. I also stumbled upon 
+the <a href="https://www.elastic.co/products/logstash" target="_blank">LogStash</a> + <a href="https://www.elastic.co/products/elasticsearch" target="_blank">Elasticsearch</a> + <a href="https://www.elastic.co/products/kibana" target="_blank">Kibana</a> family while solving some log 
+parsing problem and so here is an attempt to integrate that with JMeter.<br>
+<br>
+<b>Pre
+ Requisities</b> - This assumes you have downloaded Elasticsearch and Kibana
+ and have managed to get them running and connected to each other.<br>
+<a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a><br>
+<a href="https://www.elastic.co/downloads/kibana">https://www.elastic.co/downloads/kibana</a><br>
+I used Elasticsearch v1.5.2 and Kibanav4.0.2<br>
+<br>
+<b>Step 1) Define the mapping for the data that we are going to send to ElasticSearch</b><br>
+This
+ step is strictly speaking , not necessary - Elasticsearch can 
+dynamically add indexes or types or fields for a type - More on why I 
+needed to do this later.<br>
+For now everything( referred to as a&nbsp; 
+document) we store in Elasticsearch goes into an Index and has a type. 
+The type is similar to a Class definition - it defines what fields we 
+store , whether they are Strings or Numbers or Dates and what we expect 
+Elasticsearch to do with it (index, analyze, store etc).<br>
+In our example, we will store our data into indexes whose name will always be jmeter-elasticsearch-yyyy-MM-dd (I
+ appended the timestamp because Logstash does it by default - This 
+limits the size of a particular&nbsp; index and that's probably good when you have many tests and distribute Elasticsearch over multiple nodes)<br>
+We
+ will define a type called SampleResult that will closely match the 
+JMeter java object <a href="https://jmeter.apache.org/api/org/apache/jmeter/samplers/SampleResult.html" target="_blank">SampleResult</a>. We don't really need all the fields , 
+and if we wanted to optimise the interface , we'd probably drop a few. 
+For now we'll just take almost everything other than the response data.<br>
+<br>
+Elasticsearch
+ allows you to define an <a href="https://www.elastic.co/guide/en/elasticsearch/reference/1.5/indices-templates.html" target="_blank">Index Template</a> , so that all 
+created indexes that use that template have the same setting , so we'll 
+use that feature<br>
+<br>
+Here is the template we will use <br>
+<pre style="background-color: #eeeeee; border: 1px dashed #999999; color: black; font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; font-size: 12px; line-height: 14px; overflow: auto; padding: 5px; width: 100%;"><code>{
+   "template" : "jmeter*",
+   "mappings" : {
+            "SampleResult": {
+                          "properties":    {
+                                 "AllThreads":{"type":"long"},
+                                  "Assertions":{"properties":{"Failure":{"type":"boolean"},"FailureMessage":{"type":"string","index":"not_analyzed"},"Name":{"type":"string","index":"not_analyzed"}}},
+                                 "BodySize":{"type":"long"},
+                                 "Bytes":{"type":"long"},
+                                 "ConnectTime":{"type":"long"},
+                                 "ContentType":{"type":"string"},
+                                 "DataType":{"type":"string","index":"not_analyzed"},
+                                 "ElapsedTime":{"type":"long"},
+                                 "EndTime":{"type":"date","format":"dateOptionalTime"},
+                                 "ErrorCount":{"type":"long"},
+                                 "GrpThreads":{"type":"long"},
+                                 "IdleTime":{"type":"long"},
+                                 "Latency":{"type":"long"},
+                                 "ResponseCode":{"type":"string","index":"not_analyzed"},
+                                 "ResponseMessage":{"type":"string","index":"not_analyzed"},
+                                 "ResponseTime":{"type":"long"},
+                                 "SampleCount":{"type":"long"},
+                                 "SampleLabel":{"type":"string","index":"not_analyzed"},
+                                 "StartTime":{"type":"date","format":"dateOptionalTime"},
+                                 "Success":{"type":"string","index":"not_analyzed"},
+                                 "ThreadName":{"type":"string","index":"not_analyzed"},
+                                 "URL":{"type":"string","index":"not_analyzed"},
+                                 "sku":{"type":"string","index":"not_analyzed"},
+                                 "RunId":{"type":"string","index":"not_analyzed"},
+                                 "timestamp":{"type":"date","format":"dateOptionalTime"},
+                                 "NormalizedTimestamp":{"type":"date","format":"dateOptionalTime"}
+                 }
+          }
+   }
+}
+</code></pre>
+<br>
+We indicate that our template should apply to any index whose name begins with jmeter*<br>
+We also define a mapping called SampleResult and we define what properties it uses and their types. We also define some properties to be "<a href="https://www.elastic.co/guide/en/elasticsearch/guide/master/mapping-intro.html" target="_blank">not_analyzed</a>" - Mainly this field should be indexed and searchable but no analysis is needed on this field. If I didn't set this value then some of the URLs in my example use '-' which is generally a word separator for Search tools (like <a href="https://lucene.apache.org/" target="_blank">Lucene</a> which is what Elasticsearch uses) and that was messing up my graphs. This is the main reason for me to define the mapping explicitly (especially as Elasticsearch doesnt allow you to change this value once defined , short of deleting and recreating)<br>
+<br>
+We now need to tell Elasticsearch about this template. Thats done by making a HTTP PUT request to a URL. I use Poster for this purpose. Fill in the server and (http) port used by Elasticsearch and paste the template into it and PUT.<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/s1600/PostTemplate.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="362" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/PostTemplate.png" width="640"></a></div>
+<br>
+The server should acknowledge it.<br>
+You can view that all is successful by typing http://[elasticsearchserver]:[httpport]/_template<br>
+<br>
+<b>Step 2 : Implement JMeter's <a href="http://jmeter.apache.org/api/org/apache/jmeter/visualizers/backend/BackendListenerClient.html" target="_blank">BackendListenerClient</a></b><br>
+In order to get JMeter to pass our code the results , we need to implement the BackendListenerClient interface. This has following methods<br>
+<b>setupTest/teardownTest </b>- As the name suggests these are initialization/cleanup methods . They are called once each time the test is run.<br>
+<b>getDefaultParameters </b>- These are useful to hint things to the end user (e.g. the parameter name for the Elasticsearch server and a default value for it like 'localhost')<br>
+<b>handleSampleResults</b> - This is the method JMeter will invoke to provide the results of the tests. A List of SampleResult is provided as input , the size of the list will probably be upto the Async Queue Size field that is specified when the <a href="http://jmeter.apache.org/usermanual/component_reference.html#Backend_Listener" target="_blank">Listener is configured</a><br>
+<b>createSampleResult</b> - This allows you to create a copy of the SampleResult so that if you modify it in some way , it doesn't change anything for the rest of the Listeners.<br>
+<br>
+The javadoc for BackendListenerClient helpfully tell you to extend <a href="http://jmeter.apache.org/api/org/apache/jmeter/visualizers/backend/AbstractBackendListenerClient.html" target="_blank">AbstractBackendListenerClient</a> instead of implementing BackendListenerClient directly -so that is what we will do. This class has a few additional methods (and since I haven't been able to figure out what they do , we will simply pretend they don't exist). We can also download the Java Source code and read the existing implementation for GraphiteBackendListenerClient (basically copy-paste as much as we can - a Java development best practice)<br>
+<br>
+So with that here are some snippets - The complete source / project / jar is at [1]<br>
+<pre class="source-code"><code>    @Override
+    public Arguments getDefaultParameters() {
+        Arguments arguments = new Arguments();
+        arguments.addArgument("elasticsearchCluster", "localhost:" + DEFAULT_ELASTICSEARCH_PORT);
+        arguments.addArgument("indexName", "jmeter-elasticsearch");
+        arguments.addArgument("sampleType", "SampleResult");
+        arguments.addArgument("dateTimeAppendFormat", "-yyyy-MM-DD");
+        arguments.addArgument("normalizedTime","2015-01-01 00:00:00.000-00:00");
+        arguments.addArgument("runId", "${__UUID()}");
+        return arguments;
+   }</code></pre>
+We define some parameters that we will use. For e.g. the elasticsearchCluster element will define which Elasticsearch server(s) we need to connect to. The indexName will define the prefix used to create the index (remember that our template will get applied to all indexes that begin with "jmeter". The dateTimeAppendFormat will be a suffix we use to append to the indexName. We can ignore the other parameters for now<br>
+<br>
+Next by referring to the <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html" target="_blank">Java API for Elasticsearch</a> we can write some code to <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/client.html#transport-client" target="_blank">connect and disconnect</a> from the cluster in the setup and teardown methods.<br>
+<pre class="source-code"><code>@Override
+public void setupTest(BackendListenerContext context) throws Exception {
+        String elasticsearchCluster = context.getParameter("elasticsearchCluster");        
+        String[] servers = elasticsearchCluster.split(",");
+        
+        indexName = context.getParameter("indexName");
+        dateTimeAppendFormat=context.getParameter("dateTimeAppendFormat");
+        if(dateTimeAppendFormat!=null &amp;&amp; dateTimeAppendFormat.trim().equals("")) {
+            dateTimeAppendFormat = null;
+        }
+        sampleType = context.getParameter("sampleType");
+    client = new TransportClient();
+    for(String serverPort: servers) {
+        String[] serverAndPort = serverPort.split(":");
+        int port = DEFAULT_ELASTICSEARCH_PORT;
+        if(serverAndPort.length == 2) {
+            port = Integer.parseInt(serverAndPort[1]);
+        }
+        ((TransportClient)client).addTransportAddress(new InetSocketTransportAddress(serverAndPort[0], port));
+    }
+        //snip
+    super.setupTest(context);
+    }
+
+
+@Override
+public void teardownTest(BackendListenerContext context) throws Exception {
+    client.close();    
+    super.teardownTest(context);
+}
+
+</code></pre>
+<br>
+The setupTest code reads the elasticsearchCluster parameter (this would get set in the JMeter GUI by the user), parses it , sets the apropriate values to the Transport client (note that the JAVA API port - default 9300 is different from the HTTP API port - default 9200). The teardownTest shuts down the client.<br>
+<br>
+And with that we get to the bulk of our code (again this code might be inefficient)<br>
+First lets create a Map from a JMeter Sample result object. <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index_.html#generate" target="_blank">Elasticsearch can treat a Map object as if it was a JSON object.</a><br>
+<pre class="source-code"><code>private Map&lt;String, Object&gt; getMap(SampleResult result) {
+    Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+    map.put("ResponseTime", result.getTime());
+    map.put("ResponseCode", result.getResponseCode());
+        //snip lots more code
+    return map;
+}
+</code></pre>
+<br>
+Next lets use the <a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index_.html#generate" target="_blank">API </a>to create a document<br>
+<pre class="source-code"><code>@Override
+public void handleSampleResults(List&lt;SampleResult&gt; results,
+        BackendListenerContext context) {
+    String indexNameToUse = indexName;
+    for(SampleResult result : results) {
+        Map&lt;String,Object&gt; jsonObject = getMap(result);
+        if(dateTimeAppendFormat != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(dateTimeAppendFormat);
+            indexNameToUse = indexName + sdf.format(jsonObject.get(TIMESTAMP));
+        }
+        client.prepareIndex(indexNameToUse, sampleType).setSource(jsonObject).execute().actionGet();                    
+    }
+}
+</code></pre>
+<br>
+We simply write code to dynamically create an index name based on the timestamp of the SampleResult object and we tell Elasticsearch to prepare the Index (which it will create if its not existing, then pass in the Map object(the document we want to store) that we just created and execute this  - i.e. add this document to the index.<br>
+<br>
+Next we compile and <a href="https://onedrive.live.com/?cid=1BD02FE33F80B8AC&amp;id=1bd02fe33f80b8ac!953" target="_blank">create a JAR</a> file for our code and put it in $JMETER_HOME/lib/ext.<br>
+Dependencies are uploaded in<a href="https://onedrive.live.com/?cid=1BD02FE33F80B8AC&amp;id=1bd02fe33f80b8ac!953" target="_blank"> .classpath</a> file <br>
+<br>
+We also need to add the dependent jars for JMeter (Elasticsearch API , Lucene) into $JMETER_HOME/lib. Copy them from the Elasticsearch installation.<br>
+elasticsearch-1.5.2.jar<br>
+lucene-core-4.10.4.jar<br>
+lucene-analyzers-common-4.10.4.jar <br>
+<br>
+<b>Step 3: Modify the JMeter test to use the Listener we created</b><br>
+We should be able to add the BackendListener like any other Listener to our JMeter plan (Add --Listener -- BackendListener)<br>
+In the Backend Listener Implementation dropdown , we should get the class we created in the drop down and selecting it should fill the Parameters section with the parameters we returned in the getDefaultParameters method. If not then we need to check the logs, see that we compiled our code with the same version that we are running JMeter on or whether we copied the JAR to the right place, whether we copied the dependencies etc). Next we update the value for elasticsearchCluster parameter to point to our server and we can then run the test.<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-7pUR_uYt_iM/VWZu0WOWpyI/AAAAAAAAUoU/33JkvYtZdxM/s1600/BackendListenerGUI.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="142" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/BackendListenerGUI.png" width="640"></a></div>
+<br>
+<br>
+Lets assume we are running the test and the Log isn't printing error after error.<br>
+Elasticsearch HTTP API will allow you to see data - but we can also use a plugin like <a href="https://github.com/mobz/elasticsearch-head" target="_blank">Elasticsearch Head</a> . Install this plugin. Next we navigate to http://server:httpport/_plugin/head/ and we can see if our index is created and whether it is getting data. Looks like it is<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-DLqAMxHmCSI/VWZtkKX-hPI/AAAAAAAAUnM/hJmvCCSinZo/s1600/elasticsearchhead.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="362" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/elasticsearchhead.png" width="640"></a></div>
+<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-slBEP2mXZ7E/VWZtmNYGqpI/AAAAAAAAUnU/o_fStjxj4yM/s1600/elasticsearchheaddata.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="150" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/elasticsearchheaddata.png" width="640"></a></div>
+<br>
+<br>
+Step 4 : Looking at the data in Kibana <br>
+If Kibana isn't started already , start it<br>
+<br>
+Navigate to the Kibana Server :Port in the browser and click Settings and the Indices tab<br>
+Our indices are named jmeter<something> so thats what we will give in the index pattern field. Ensure that Index contains time based events is checked and in the drop down for Time-Field name choose timestamp</something><br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-hkKvzDEB26k/VWZtzJ9bswI/AAAAAAAAUnc/QyfRbuHTcao/s1600/kibanaindex.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="214" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/kibanaindex.png" width="640"></a></div>
+<br>
+<br>
+On the next screen click the star icon to make this index pattern the default - We can also see the fields that match what we defined in our template.<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-d_8GyPhCHtY/VWZt6L_y21I/AAAAAAAAUnk/G9ZbgcMNyT0/s1600/kibanaindexdefault.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="206" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/kibanaindexdefault.png" width="640"></a></div>
+<br>
+<br>
+Now click Discover - If you just finished running your test or it's still running , you should be able to see some data. Kibana's default is Last 15 minutes , but you can change that by clicking the top right hand corner. Note that the index selected is jmeter* - which is what we want . Change it if its something else by clicking the settings on upper right hand side<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-JZVo7DYfFHk/VWZuAl6hXVI/AAAAAAAAUns/GeK2vPHoFuk/s1600/kibana15min.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="204" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/kibana15min.png" width="640"></a></div>
+<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://1.bp.blogspot.com/-lEzdZlf3ymo/VWZuIcj8amI/AAAAAAAAUn0/1qFbjcd8WHI/s1600/KibanaSingleSample.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="222" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/KibanaSingleSample.png" width="640"></a></div>
+<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-JZVo7DYfFHk/VWZuAl6hXVI/AAAAAAAAUns/GeK2vPHoFuk/s1600/kibana15min.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><br></a></div>
+<br>
+Lets try and see 90% response times. Click Visualise. It asks you what type of chart you want - lets use a Line chart and a new Search. When prompted use jmeter* for the index pattern.<br>
+<br>
+So on the Left hand side - we can choose for the Y axis , the aggregation is "percentile" , the field as "Response Time" and value for the Percentile as 90. For X axis we choose Aggregration as Date Histogram and the field as Timestamp and the Interval as Auto.<br>
+And apply .<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-4ldq6_k1b-0/VWZuZRdZGHI/AAAAAAAAUn8/BCgfWpdcc6s/s1600/All90Percentile.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="339" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/All90Percentile.png" width="640"></a></div>
+<br>
+<br>
+And we see a nice graph for the 90% across all Samples - Nice but not very useful.<br>
+<br>
+But thats&nbsp; ok - we can also filter data by typing in queries - In the example below , only use the Category pages(Where the JMeter Sample Label is "Request Category Page" to calculate the percentiles.<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-eKxMyXk5dRU/VWZugJ9pPbI/AAAAAAAAUoE/GFynxNvKnNE/s1600/CategoryPage90.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="340" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/CategoryPage90.png" width="640"></a></div>
+<br>
+<br>
+Lets try and drill it down further. In my example JMeter script , it iterated over a number of URLs (category pages) and the JMeter Request had a common label "Request Category Page". Lets see the top 3 worst performing categories. The Y Axis remains the same. For the buckets we first choose Split Line and for the&nbsp; Aggregation we use "Terms" for Field we choose URL (as each Category has its own URL) and we choose&nbsp; the Top 3 URLs ordered by 90%&nbsp; and then we add a X axis Sub Aggregation of Date Histogram on the timestamp field.<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-_mN5nYGWRdY/VWZuneRbj3I/AAAAAAAAUoM/BjNF0xx8hpg/s1600/CategoryTop390.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="236" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/CategoryTop390.png" width="320"></a></div>
+<br>
+<br>
+You can even save this visualization and add it to a Dashboard.<br>
+Once the data is in Elasticsearch ,all the features within Elasticsearch and Kibana are available.<br>
+<br>
+Lets look at a couple of more involved examples<br>
+<br>
+<b>Saving variables</b><br>
+Lets assume that one of the steps in the test script is a Search script. The script reads a set of terms from a file into say a variable (sku) and executes a Search transaction. However the application we are testing has some issues. If a search term is a complex phrase, returns too many results or has too many rules defined for it (Synonyms, etc) then it takes time. We want our results to be analyzed either by Search as a whole or by the specific terms that we searched for. One option is to modify The Sample label to be something like Search - ${SKU} and use wildcards whenever we want to see Search etc. But it would be cleaner if we could still have the SampleLabel as Search and somehow save the variable "sku" and its value as part of the document we index.<br>
+A normal listener has access to the vars object or can get the variables from the Thread. But the BackendListener interface only has a SampleResult and no access to the original thread due to the Async nature. An option would be to modify the SampleResult (by a different listener) to add these variables into it (in a Sub SampleResult or something). But in this example since I only want a single variable , lets just use a poor mans delimiter with SampleLabel.<br>
+So what we will do is Change the SampleLabel to be something like<br>
+Search~sku=${SKU}<br>
+a) We will tell Elasticsearch about this field in the mapping (well actually we already did it - If you look at the mapping we specified we already had a "sku" field defined&nbsp; , a not_analyzed string<br>
+b) We then modify our JMeter script to change the SampleLabel<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-z-wxF_P7doI/VWdwPV5zv-I/AAAAAAAAUow/Jee_YU1lavU/s1600/SampleLabelWithvariable.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="108" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/SampleLabelWithvariable.png" width="640"></a></div>
+<br>
+c) In our Listener we change our code to parse the SampleLabel and set the values correctly in the map method , where we transform the JMeter result into a Map object<br>
+<pre class="source-code"><code>String[] sampleLabels = result.getSampleLabel().split(VAR_DELIMITER);
+map.put("SampleLabel", sampleLabels[0]);
+for(int i=1;i&lt;sampleLabels.length;i++) {
+        String[] varNameAndValue =sampleLabels[i].split(VALUE_DELIMITER);
+        map.put(varNameAndValue[0], varNameAndValue[1]);
+}
+
+</code></pre>
+And thats it (well compile , copy the Listener jar and restart JMeter). Run the JMeter script and we should start seeing data. Heres the 90% graph for Search in General - Y Axis is aggregated by Percentile and X axis is a Split Line on a TermsAggregation on Field SampleLabel sub aggregated by a Date Histogram on timestamp<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-VJheSgPMevg/VWiYbeP2UVI/AAAAAAAAUpI/-VXrWHQ6Jqc/s1600/Search90percentile.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="472" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/Search90percentile.png" width="640"></a></div>
+<br>
+And heres the same thing for individual SKU -Y Axis is aggregated by Percentile and X axis is a Split Line on a TermsAggregation on Field sku sub aggregated by a Date Histogram on timestamp<br>
+<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-_oa2dGjEIls/VWiYiIiefwI/AAAAAAAAUpQ/a8EIK28RQKQ/s1600/SearchSKU90.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="472" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/SearchSKU90.png" width="640"></a></div>
+<br>
+Any variable can be done in the same way (or multiple variables) using ~ as a separator and key=value for the variable..<br>
+<br>
+<br>
+<b>Comparing runs</b><br>
+A common performance issue is you have a set of data and you want to make a change and compare the runs before and after the change. Lets try and compare graphs. I actually couldnt figure out how to do this in Kibana so lets do a quick and dirty fix - <br>
+1) We'll settle on an epoch date . Lets say 2015-01-01 00:00:00. No matter what time we started our test actually, we are going to pretend we started it on 2015-01-01 00:00:00. For all requests that are part of the scripts , we are going to shift the time so that the times are all relative to 2015-01-01 00:00:00.<br>
+2) Because of 1) , we now don't actually have to compare different timeseries , all the results will appear to be on the same time frame. However we do need a way to differentiate the two runs. So we'll introduce another variable and call it runId. This will just need to be something unique so that we can differentiate the runs<br>
+<br>
+a) We add these new fields to the mapping for Elasticsearch(well we did it already) - the fields are NormalizedTimestamp and RunId<br>
+b) We modify the java code to add these parameters and default values - that was done in the first code snippet too - normalizedTimestamp and runId<br>
+c) Next we modify the Listener code to add this new timestamp<br>
+We calculate the offset of the startTime from the epoch <br>
+<pre class="source-code"><code>String normalizedTime = context.getParameter("normalizedTime");
+if(normalizedTime != null &amp;&amp; normalizedTime.trim().length() &gt; 0 ){
+    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX");
+    Date d = sdf2.parse(normalizedTime);
+    long normalizedDate = d.getTime();
+    Date now = new Date();
+    offset = now.getTime() - normalizedDate;
+}
+
+</code></pre>
+<br>
+And then we simply subtract this offset from the current time in the mapping code
+<br>
+<pre class="source-code"><code>map.put("NormalizedTimestamp", new Date(result.getTimeStamp() - offset));
+</code></pre>
+<br>
+And now we can run our tests (after compile, copy jar and restart JMeter). So lets run the test once&nbsp; and then run it again (after an interval), preferably make some changes (for e.g. I turned off cache and then turned it back on<br>
+On the Kibana homepage , if we change the interval to cover both the runs , we can see that we do have some data for two separate runs . (We could note down the RunIds and just filter for them - This&nbsp; would be needed if we had run tests in between - but we didnt so we are good)<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://1.bp.blogspot.com/-RWKMFT61jbI/VWirCTeKF4I/AAAAAAAAUpg/57x2CgstF44/s1600/TwoRuns.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="254" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/TwoRuns.png" width="640"></a></div>
+<br>
+<br>
+Next go back to Visualize and this time the Y Axis can still be a 90 Percentile Aggregation of Response time - Then use a Split Lines over a Terms Aggregation of RunId , A Split Chart over a Terms Aggregation of SampleLabel , and finally an X Axis date histogram of<b> NormalizedTimestamp</b> . Note that the time filter still operates on the timestamp field so we have to ensure that it covers the actual times of both runs<br>
+<br>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-HWhzzdxI2-E/VWirHxZiJQI/AAAAAAAAUpo/k-RXGL4ZxVo/s1600/SplitLineAllSearchTwoRuns.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="608" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/SplitLineAllSearchTwoRuns.png" width="640"></a></div>
+<br>
+[1] Source code and Jar available at https://onedrive.live.com/?cid=1BD02FE33F80B8AC&amp;id=1bd02fe33f80b8ac!953<br>
+Note JAR built with Java 1.8<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div>
+<div style="clear: both;"></div>
+</div>
+<div class="post-footer">
+<div class="post-footer-line post-footer-line-1">
+<span class="post-author vcard">
+Posted by
+<span class="fn" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+<meta content="https://plus.google.com/111567571937696148737" itemprop="url">
+<a class="g-profile" href="https://plus.google.com/111567571937696148737" rel="author" title="author profile" data-gapiscan="true" data-onload="true" data-gapiattached="true">
+<span itemprop="name">Unknown</span>
+</a>
+</span>
+</span>
+<span class="post-timestamp">
+at
+<meta content="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html" itemprop="url">
+<a class="timestamp-link" href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html" rel="bookmark" title="permanent link"><abbr class="published" itemprop="datePublished" title="2015-05-27T18:27:00-07:00">6:27 PM</abbr></a>
+</span>
+<span class="reaction-buttons">
+</span>
+<span class="post-comment-link">
+</span>
+<span class="post-backlinks post-comment-link">
+</span>
+<span class="post-icons">
+<span class="item-control blog-admin pid-512605801">
+<a href="https://www.blogger.com/post-edit.g?blogID=10045102&amp;postID=4725181315293700707&amp;from=pencil" title="Edit Post">
+<img alt="" class="icon-action" height="18" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon18_edit_allbkg.gif" width="18">
+</a>
+</span>
+</span>
+<div class="post-share-buttons goog-inline-block">
+</div>
+</div>
+<div class="post-footer-line post-footer-line-2">
+<span class="post-labels">
+Labels:
+<a href="http://theworkaholic.blogspot.com/search/label/Elasticsearch" rel="tag">Elasticsearch</a>,
+<a href="http://theworkaholic.blogspot.com/search/label/JMeter" rel="tag">JMeter</a>,
+<a href="http://theworkaholic.blogspot.com/search/label/Kibana" rel="tag">Kibana</a>,
+<a href="http://theworkaholic.blogspot.com/search/label/Performance%20Tuning" rel="tag">Performance Tuning</a>,
+<a href="http://theworkaholic.blogspot.com/search/label/testing" rel="tag">testing</a>
+</span>
+</div>
+<div class="post-footer-line post-footer-line-3">
+<span class="post-location">
+</span>
+</div>
+</div>
+</div>
+<div class="comments" id="comments">
+<a name="comments"></a>
+<h4>40 comments:</h4>
+<div id="Blog1_comments-block-wrapper">
+<dl class="avatar-comment-indent" id="comments-block">
+<dt class="comment-author " id="c7565358476863636386">
+<a name="c7565358476863636386"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://twitter.com/philmdot" target="" rel="nofollow" onclick=""><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Philippe M.">
+
+</a></span></div>
+<a href="https://twitter.com/philmdot" rel="nofollow">Philippe M.</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-7565358476863636386">
+<p>
+Great blog ! <br>It would be nice to contribute your code to a project like jmeter-plugins so that it is maintained and possibly improved.<br><br>Regards
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1436471741108#c7565358476863636386" title="comment permalink">
+12:55 PM
+</a>
+<span class="item-control blog-admin pid-1589092674">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=7565358476863636386" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c6730284423237057468">
+<a name="c6730284423237057468"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-6730284423237057468-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/photo.jpg" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6730284423237057468">
+<p>
+Sure - How would I go about doing that ?
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1436471974987#c6730284423237057468" title="comment permalink">
+12:59 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6730284423237057468" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c7011099718558265490">
+<a name="c7011099718558265490"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/14754469341244610982" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-7011099718558265490-14754469341244610982"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Unknown">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/14754469341244610982" rel="nofollow">Unknown</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-7011099718558265490">
+<p>
+Great article Deepak,<br><br>I am using ELK stack for analysis, and this would definitely make things easier than having to parse results using Logstash - for large volume tests it's a lot of data to parse and store if every response is analysed - so my preference would now be aggregated results.<br><br>It would be great if you could contribute this plugin to jmeter-plugins - you can probably ask about this on the forum here - https://groups.google.com/forum/#!forum/jmeter-plugins/<br><br>Kind regards,<br>Barry
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1453937007596#c7011099718558265490" title="comment permalink">
+3:23 PM
+</a>
+<span class="item-control blog-admin pid-248303381">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=7011099718558265490" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c1016956369927887662">
+<a name="c1016956369927887662"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-1016956369927887662-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/photo.jpg" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-1016956369927887662">
+<p>
+@Barry<br>I intended to - but life got in the way (new baby and work). Hopefully in a couple of months
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1454006615325#c1016956369927887662" title="comment permalink">
+10:43 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=1016956369927887662" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c973996823055176098">
+<a name="c973996823055176098"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/13596316205205056114" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-973996823055176098-13596316205205056114"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/photo(1).jpg" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-lkTMSCI-vys/AAAAAAAAAAI/AAAAAAAAAoI/aSTo-z6LuGM/s35-c/photo.jpg" alt="" title="Ricardo Lourenço">
+
+<noscript><img src="//lh5.googleusercontent.com/-lkTMSCI-vys/AAAAAAAAAAI/AAAAAAAAAoI/aSTo-z6LuGM/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/13596316205205056114" rel="nofollow">Ricardo Lourenço</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-973996823055176098">
+<p>
+Good article Deepak,<br><br>I have a question for you if you still remember. How did you compile/built the jar with the classpath? I had to do some modifications to the code but once I place my .jar file in /lib/ext it doesn't show in the jmeter. Yes I've placed the required elasticsearch/lucene jars in the correct folders.<br><br>Your jar appears, mine doesn't. I suspect classpath issues when building the jar...
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1460113874753#c973996823055176098" title="comment permalink">
+4:11 AM
+</a>
+<span class="item-control blog-admin pid-365703249">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=973996823055176098" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c1643697318011628977">
+<a name="c1643697318011628977"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-1643697318011628977-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/photo.jpg" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-1643697318011628977">
+<p>
+Sorry I did not see this - I built the jar in eclipse - You need to check<br>a. You built it with the same version of java that you are running JMeter with<br>b. The class is correctly present in the folder (defined by the package).<br>c. All associated jars are present in the lib directory (including your jar) - you mentioned lib/ext it should be lib
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1460608546543#c1643697318011628977" title="comment permalink">
+9:35 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=1643697318011628977" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c5112258718182947670">
+<a name="c5112258718182947670"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-5112258718182947670-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/13122009356.jpg" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5112258718182947670">
+<p>
+Hi,<br><br>Great article.<br>The link is not accessible. Can you please provide the link for source code and jar.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1468935750387#c5112258718182947670" title="comment permalink">
+6:42 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5112258718182947670" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c8785002940790045839">
+<a name="c8785002940790045839"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-8785002940790045839-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-8785002940790045839">
+<p>
+https://onedrive.live.com/?cid=1BD02FE33F80B8AC&amp;id=1bd02fe33f80b8ac!953 works fine for me. if it doesnt for you youll have to put your email address if you want me to email it
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1468952192164#c8785002940790045839" title="comment permalink">
+11:16 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=8785002940790045839" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c4964821207070672525">
+<a name="c4964821207070672525"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-4964821207070672525-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-4964821207070672525">
+<p>
+Hi,<br><br>I am able to access the link. it was an issue with the firewall. I configured all the things and i do see the listener in jmeter.<br>When i run the test i see No Node configured. I had the elastic search downloaded and the services are up and running.<br>Any clue about the no node configured stuff?. This is the exact exception.<br>org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: []
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469019249522#c4964821207070672525" title="comment permalink">
+5:54 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=4964821207070672525" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c1918063140343390534">
+<a name="c1918063140343390534"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-1918063140343390534-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-1918063140343390534">
+<p>
+Hi Deepak,<br><br>This worked fine . I realised i had downloaded a different elastic search version. <br>Installing the one you had mentioned worked fine.<br><br>Thanks for your help.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469025646935#c1918063140343390534" title="comment permalink">
+7:40 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=1918063140343390534" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c5314348139592769072">
+<a name="c5314348139592769072"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-5314348139592769072-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5314348139592769072">
+<p>
+out of curiosity which version did it not work on ?
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469039082036#c5314348139592769072" title="comment permalink">
+11:24 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5314348139592769072" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c4496157026843025303">
+<a name="c4496157026843025303"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-4496157026843025303-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-4496157026843025303">
+<p>
+i used 2.3.4. I am facing little problem here. <br>Jmeter doesn't show any errors and no issues in the elastic search logs too.<br>After installing the head plugin. I don't see any data. And when i use curl command with the index name i see index missing.<br><br>curl -XGET 'http://localhost:9200/jmeter-elasticsearch'. Can you help me here. 
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469088013839#c4496157026843025303" title="comment permalink">
+1:00 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=4496157026843025303" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c1036149050810646017">
+<a name="c1036149050810646017"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-1036149050810646017-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-1036149050810646017">
+<p>
+Ill have to set that up locally which will take a little time.<br>If you have verified there are no errors in JMeter.log then what I would do is setup a TCPProxy - configure JMeter --&gt; TCP Proxy --&gt; Elastic search<br>The proxy will record everything that JMeter is send it and whatever ElasticSearch is returning back. This should tell you which part of the connection is causing an issue and then further diagnosis should be possible
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469141914949#c1036149050810646017" title="comment permalink">
+3:58 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=1036149050810646017" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c7211498394441016445">
+<a name="c7211498394441016445"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-7211498394441016445-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-7211498394441016445">
+<p>
+also Im assuming you updated the jars to the latest versions
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469142029029#c7211498394441016445" title="comment permalink">
+4:00 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=7211498394441016445" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c638034781331133436">
+<a name="c638034781331133436"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-638034781331133436-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-638034781331133436">
+<p>
+Hey Deepak<br>This worked fine. I m not well aware of elastic search but the moment i installed kibana and pointed the elastic search IP. It started working beautifully.<br><br>Once again thank you.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1469191853585#c638034781331133436" title="comment permalink">
+5:50 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=638034781331133436" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c34223035668835748">
+<a name="c34223035668835748"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-34223035668835748-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-34223035668835748">
+<p>
+Hi. <br><br>This worked fine with kibana but i was asked to have the elastic set up in grafana. <br>I added the data source which worked fine also the count displays with the response times.<br><br>Its when i try to order by terms i get this exception<br><br>SearchPhaseExecutionException[Failed to execute phase [query], all shards failed; shardFailures {[xHMjYU1kT6OR9LpQOTRPrw][jmeter-elasticsearch-1970-01-01][0]: AggregationExecutionException[Invalid terms aggregation order path [1]. When ordering on a multi-value metrics aggregation a metric name must be specified]}<br><br>Any help on this would be appreciated.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470836358373#c34223035668835748" title="comment permalink">
+6:39 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=34223035668835748" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c2916337526757593657">
+<a name="c2916337526757593657"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-2916337526757593657-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-2916337526757593657">
+<p>
+Seems to specific to elastic search - I dont know what query you are trying to see whether it is valid or Not - youll probably need to ask on ElasticSearch forums
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470849738815#c2916337526757593657" title="comment permalink">
+10:22 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=2916337526757593657" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6284414211356205986">
+<a name="c6284414211356205986"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/10245152558037496210" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-6284414211356205986-10245152558037496210"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" alt="" title="Shaik">
+
+<noscript><img src="//4.bp.blogspot.com/_EYZjZjc7bC4/S53Zb9cNEyI/AAAAAAAAAB8/UxJX75tP6bw/S45-s35/13122009356.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/10245152558037496210" rel="nofollow">Shaik</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6284414211356205986">
+<p>
+Well i see this issue is reported in grafana and marked as feature request<br><br>https://github.com/grafana/grafana/issues/5148<br><br>But neverthless i can order by timestamp and that works fine for me.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470912956112#c6284414211356205986" title="comment permalink">
+3:55 AM
+</a>
+<span class="item-control blog-admin pid-311432281">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6284414211356205986" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6594891729980828239">
+<a name="c6594891729980828239"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Anonymous">
+
+</span></div>
+Anonymous
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6594891729980828239">
+<p>
+I am able to see the plug-in in JMeter, but when configuring my elastic search node which is running in different host I am seeing the following error,<br><br>asticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: []<br> at org.elasticsearch.client.transport.TransportClientNodesService.ensureNodesAreAvailable(TransportClientNodesService.java:305)<br> at org.elasticsearch.client.transport.TransportClientNodesService.execute(TransportClientNodesService.java:200)<br> at org.elasticsearch.client.transport.support.InternalTransportClient.execute(InternalTransportClient.java:106)<br> at org.elasticsearch.client.support.AbstractClient.index(AbstractClient.java:98)<br> at org.elasticsearch.client.transport.TransportClient.index(TransportClient.java:326)<br> at org.elasticsearch.action.index.IndexRequestBuilder.doExecute(IndexRequestBuilder.java:313)<br> at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:91)<br> at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:65)<br> at org.md.jmeter.elasticsearch.ElasticSearchBackendListenerClient.handleSampleResults(ElasticSearchBackendListenerClient.java:40)<br> at org.apache.jmeter.visualizers.backend.BackendListener.sendToListener(BackendListener.java:266)<br> at org.apache.jmeter.visualizers.backend.BackendListener$Worker.run(BackendListener.java:239)<br><br><br>I am suspecting it's because the corporate firewall is not allowing JMeter to post results back to ES Host. Can you please let know how to configure Proxy Host as part of the backend listener parameter. I will add that to the code and compile a new Jar file with added parameter and give it a try.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470961286091#c6594891729980828239" title="comment permalink">
+5:21 PM
+</a>
+<span class="item-control blog-admin pid-364179975">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6594891729980828239" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c5318410337900150148">
+<a name="c5318410337900150148"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/00092107110847255611" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-5318410337900150148-00092107110847255611"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Shan">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/00092107110847255611" rel="nofollow">Shan</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5318410337900150148">
+<p>
+I am getting the following error, in JMeter Log viewer, my ES node is running on different host,<br><br>ERROR - jmeter.JMeter: Uncaught exception:  org.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: []<br> at org.elasticsearch.client.transport.TransportClientNodesService.ensureNodesAreAvailable(TransportClientNodesService.java:305)<br> at org.elasticsearch.client.transport.TransportClientNodesService.execute(TransportClientNodesService.java:200)<br> at org.elasticsearch.client.transport.support.InternalTransportClient.execute(InternalTransportClient.java:106)<br> at org.elasticsearch.client.support.AbstractClient.index(AbstractClient.java:98)<br> at org.elasticsearch.client.transport.TransportClient.index(TransportClient.java:326)<br> at org.elasticsearch.action.index.IndexRequestBuilder.doExecute(IndexRequestBuilder.java:313)<br> at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:91)<br> at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:65)<br> at org.md.jmeter.elasticsearch.ElasticSearchBackendListenerClient.handleSampleResults(ElasticSearchBackendListenerClient.java:40)<br> at org.apache.jmeter.visualizers.backend.BackendListener.sendToListener(BackendListener.java:266)<br> at org.apache.jmeter.visualizers.backend.BackendListener$Worker.run(BackendListener.java:239)<br><br>I am suspecting it could be proxy issue but not sure, can you provide me a code to add proxy in the backend listener parameter i will add that and compile the Jar and give a try. Thanks for you help!!
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470963470940#c5318410337900150148" title="comment permalink">
+5:57 PM
+</a>
+<span class="item-control blog-admin pid-911093515">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5318410337900150148" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c856557902286529490">
+<a name="c856557902286529490"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/00092107110847255611" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-856557902286529490-00092107110847255611"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Shan">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/00092107110847255611" rel="nofollow">Shan</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-856557902286529490">
+<p>
+ok just testing its not proxy issue, since I ran JMeter test from the same host where ES is running, still getting the same error. any help much appreciated. 
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1470965276917#c856557902286529490" title="comment permalink">
+6:27 PM
+</a>
+<span class="item-control blog-admin pid-911093515">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=856557902286529490" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c230978805473639761">
+<a name="c230978805473639761"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-230978805473639761-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-230978805473639761">
+<p>
+As the error says for whatever reason JMeter is unable to connect with the IP:Port that you have specified in elasticsearch cluster. <br>Ensure you have specified the correct port (note that the web port by default is 9200 but the java port by default is 9300)
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1471021390007#c230978805473639761" title="comment permalink">
+10:03 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=230978805473639761" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c9016704847031629958">
+<a name="c9016704847031629958"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/00092107110847255611" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-9016704847031629958-00092107110847255611"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Shan">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/00092107110847255611" rel="nofollow">Shan</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-9016704847031629958">
+<p>
+Hi Deepak,<br>yeah, i tried using 9300, but still no luck. double checked the .jar files in ES as well in jmeter/lib/ext both are same version. In fact I am using the same version as mentioned in your post. We are using ELK to store and display jmeter result, parsing of result .csv is very slow. your solution will help to bypass parsing .csv all together. Any other suggestions to try out.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1471389240692#c9016704847031629958" title="comment permalink">
+4:14 PM
+</a>
+<span class="item-control blog-admin pid-911093515">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=9016704847031629958" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6077263475395779362">
+<a name="c6077263475395779362"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/00092107110847255611" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-6077263475395779362-00092107110847255611"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Shan">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/00092107110847255611" rel="nofollow">Shan</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6077263475395779362">
+<p>
+Hi Deepak, I am able to resolve the issue, to help others who might run into same issue <br><br>in my case I have provided a name for the Elastic search cluster, by default the transport client will try to connect to "elasticsearch" as the cluster name. if that is changed for any reason it will throw node not available error. To resolve it, get the source code from above link and add the below lines before client connect string and compile a new jar version and put it in jmeter/lib/ext folder.<br><br>Settings settings = ImmutableSettings.settingsBuilder()<br>          .put("client.transport.ignore_cluster_name", true)<br>          .put("node.client", true)<br>          .put("client.transport.sniff", false)<br>          .build(); <br>  <br>  client = new TransportClient(settings);<br>  <br>  ((TransportClient) client).addTransportAddress(new InetSocketTransportAddress(host, port));<br><br>OR to avoid all hassle change the name of elastic search cluster name to "elasticsearch" so the plugin will work as is.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1471458648813#c6077263475395779362" title="comment permalink">
+11:30 AM
+</a>
+<span class="item-control blog-admin pid-911093515">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6077263475395779362" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c4339730356204494983">
+<a name="c4339730356204494983"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-4339730356204494983-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-4339730356204494983">
+<p>
+@Shan<br>Thank you for the info. I was under the impression that IP:port overrides the cluster name - but evidently thats not the case . Ill try and update the code to account for this scenario
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1471486700921#c4339730356204494983" title="comment permalink">
+7:18 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=4339730356204494983" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c8856827662462260817">
+<a name="c8856827662462260817"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/00092107110847255611" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-8856827662462260817-00092107110847255611"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Shan">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/00092107110847255611" rel="nofollow">Shan</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-8856827662462260817">
+<p>
+Np Deepak, this is a nicely put article, thanks for taking your time to do this.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1471539293424#c8856827662462260817" title="comment permalink">
+9:54 AM
+</a>
+<span class="item-control blog-admin pid-911093515">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=8856827662462260817" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c662073997839572035">
+<a name="c662073997839572035"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/11435896985049279701" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-662073997839572035-11435896985049279701"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="Unknown">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/11435896985049279701" rel="nofollow">Unknown</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-662073997839572035">
+<p>
+Hi,<br>After creating jar with the code you provided with little modifications as pointed out in the comments here and added it to the lib/ext in Jmeter.i am getting the error - java.lang.VerifyError: class org.elasticsearch.index.reindex .ReindexPlugin overrides final method onModule.(Lorg/elasticsearch/action/ActionModule in Jmeter console when i run the test. <br><br>We are using the latest elasticsearch-5.0.1 jar and accordingly have added the following dependent jars-<br><br>Apachejmeter_java-2.13<br>Apachejmeter_component-2.13<br>Apachejmeter_core-2.13<br>lucene-analyzers-common-4.10.4<br>lucene-core-4.10.4<br>lucene-memory-2.4.1<br>transport-5.0.1<br>log4j-api-2.6.2<br>disruptor-3.3.6<br>transport-netty3-client-5.0.0<br>reindex-2.4.2<br>elasticsearch-5.0.1<br>jorpan-2.6.2<br>logkit-1.2.2<br><br>Please help. <br>
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1480059344756#c662073997839572035" title="comment permalink">
+11:35 PM
+</a>
+<span class="item-control blog-admin pid-343362953">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=662073997839572035" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c7534937276965041274">
+<a name="c7534937276965041274"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-7534937276965041274-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-7534937276965041274">
+<p>
+Your libraries arent compatible with each other - from your exception I'd guess its the reindex-2.4.2 which isnt needed for this code to work so why have you added it ? Where is this from ? is it compatible with 5.0? 
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1480098390363#c7534937276965041274" title="comment permalink">
+10:26 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=7534937276965041274" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c5938871362940660917">
+<a name="c5938871362940660917"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><a href="https://www.blogger.com/profile/12846267464022901501" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-5938871362940660917-12846267464022901501"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/unnamed.png" width="35" height="35" alt="" title="man9ar00">
+
+</a></span></div>
+<a href="https://www.blogger.com/profile/12846267464022901501" rel="nofollow">man9ar00</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5938871362940660917">
+<p>
+Thanks for sharing this Deepak. I was able to make use of this example to port sending stats to other reporting data store (riemann). But I wanted a more generalized solution, and we've been using Dropwizard metrics library at work. So I took a shot at adapting the example for use with Dropwizard metrics library as a framework and have that do the work of sending the jmeter stats across different reporting data stores.<br><br>For anyone interested, the code is here: https://github.com/daluu/yajp. I haven't taken the time to test it out functionally or for performance/reliability, but is available for others to try and build upon. PRs welcome. It does compile with maven, and to use with jmeter, you would want to copy over the JAR that doesn't have all the dependencies included and manually copy over the dependent JARs (as defined in POM / source code).<br><br>By the way, Dropwizard metrics library has 3rd party add on support for ElasticSearch (https://github.com/elastic/elasticsearch-metrics-reporter-java). So in theory, rather than native support in a backend listener client in Jmeter send to ElasticSearch, perhaps publish through Dropwizard and have Dropwizard actually send it out. This way, can also send to other reporting endpoints as well with a single backend listener client rather than multiple ones.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1482118902734#c5938871362940660917" title="comment permalink">
+7:41 PM
+</a>
+<span class="item-control blog-admin pid-791206646">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5938871362940660917" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c5002574726122540304">
+<a name="c5002574726122540304"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Subbu">
+
+</span></div>
+Subbu
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5002574726122540304">
+<p>
+Hi Deepak<br>I am trying to use your jar file with the below version of elastic search <br>elasticsearch-5.2.1. I have added the following dependencies jar in JMeter 3.1 under lib folder. <br><br>elasticsearch-5.2.1.jar<br>transport-5.2.1.jar<br>transport-netty3-5.2.1.jar<br>lucene-analyzers-common-6.4.1.jar<br>lucene-core-6.4.1.jar<br><br><br>But i am getting the below error when i try to run the script from JMEter <br><br>"2017/02/27 11:33:00 INFO  - jmeter.visualizers.backend.BackendListener: Backend Listener:Starting worker with class:class org.md.jmeter.elasticsearch.ElasticSearchBackendListenerClient and queue capacity:5000 <br>2017/02/27 11:33:00 INFO  - jmeter.visualizers.backend.BackendListener: Backend Listener: Started  worker with class:class org.md.jmeter.elasticsearch.ElasticSearchBackendListenerClient <br>2017/02/27 11:33:00 ERROR - jmeter.JMeter: Uncaught exception:  java.lang.InstantiationError: org.elasticsearch.client.transport.TransportClient<br> at org.md.jmeter.elasticsearch.ElasticSearchBackendListenerClient.setupTest(ElasticSearchBackendListenerClient.java:110)<br> at org.apache.jmeter.visualizers.backend.BackendListener.testStarted(BackendListener.java:339)<br> at org.apache.jmeter.visualizers.backend.BackendListener.testStarted(BackendListener.java:297)<br> at org.apache.jmeter.engine.StandardJMeterEngine.notifyTestListenersOfStart(StandardJMeterEngine.java:204)<br> at org.apache.jmeter.engine.StandardJMeterEngine.run(StandardJMeterEngine.java:325)<br> at java.lang.Thread.run(Unknown Source)<br>"<br><br>But the same works fine with the elastic search version mentioned in your post. <br><br>Please assist. <br><br>Thanks in advance. <br><br>
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1488155692478#c5002574726122540304" title="comment permalink">
+4:34 PM
+</a>
+<span class="item-control blog-admin pid-1477979529">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5002574726122540304" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c3008358093028892344">
+<a name="c3008358093028892344"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-3008358093028892344-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-3008358093028892344">
+<p>
+Can you print your entire stack trace - likely you need more dependent jars. <br>Alternatively download the sourcecode and try to get it to compile ruin sample in eclipse - it should be able to tell you whats missing
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1488230211397#c3008358093028892344" title="comment permalink">
+1:16 PM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=3008358093028892344" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c2207918235301720383">
+<a name="c2207918235301720383"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Subbu">
+
+</span></div>
+Subbu
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-2207918235301720383">
+<p>
+Thanks Deepak. As you mentioned it requires additional jar files which i added after which it worked. <br>From Elastic Search 5.x they have removed transport.class from elasticsearch.jar and provisioned as a separate jar so we would have to include all dependent jars to make it work.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1488234442550#c2207918235301720383" title="comment permalink">
+2:27 PM
+</a>
+<span class="item-control blog-admin pid-1477979529">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=2207918235301720383" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6313697408635805298">
+<a name="c6313697408635805298"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Shan">
+
+</span></div>
+Shan
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6313697408635805298">
+<p>
+Hi Subbu,<br><br>Can you list the additional jar files required for ES 5.x we are planning for upgrading our ELK stack facing issue with the same plugin error in jmeter 3.1
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1490129317186#c6313697408635805298" title="comment permalink">
+1:48 PM
+</a>
+<span class="item-control blog-admin pid-1304060077">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6313697408635805298" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6111026018059639007">
+<a name="c6111026018059639007"></a>
+<div class="avatar-image-container avatar-stock"><span dir="ltr"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank.gif" width="35" height="35" alt="" title="Subbu">
+
+</span></div>
+Subbu
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6111026018059639007">
+<p>
+Hi Shan,<br>I have copied most of the jars from Elastic search installation folder as when i tried running with the new version it pretty asked for all jars.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1498623779944#c6111026018059639007" title="comment permalink">
+9:22 PM
+</a>
+<span class="item-control blog-admin pid-1477979529">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6111026018059639007" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c5097940135624973150">
+<a name="c5097940135624973150"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/16371699087802904694" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-5097940135624973150-16371699087802904694"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" alt="" title="scotbab">
+
+<noscript><img src="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/16371699087802904694" rel="nofollow">scotbab</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-5097940135624973150">
+<span class="deleted-comment">This comment has been removed by the author.</span>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1513340050763#c5097940135624973150" title="comment permalink">
+4:14 AM
+</a>
+<span class="item-control blog-admin ">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=5097940135624973150" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c6359478349401762746">
+<a name="c6359478349401762746"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/16371699087802904694" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-6359478349401762746-16371699087802904694"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" alt="" title="scotbab">
+
+<noscript><img src="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/16371699087802904694" rel="nofollow">scotbab</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-6359478349401762746">
+<p>
+Hi Subbu, were you able to solve - <b> java.lang.InstantiationError: org.elasticsearch.client.transport.TransportClient </b>- issue
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1513351951662#c6359478349401762746" title="comment permalink">
+7:32 AM
+</a>
+<span class="item-control blog-admin pid-1452181665">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=6359478349401762746" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c7141462781064327495">
+<a name="c7141462781064327495"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-7141462781064327495-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-7141462781064327495">
+<p>
+The jars needed have changed in later versions of ElasticSearch , so you need to add those
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1513367331856#c7141462781064327495" title="comment permalink">
+11:48 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=7141462781064327495" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c2397479500129621995">
+<a name="c2397479500129621995"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/16371699087802904694" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-2397479500129621995-16371699087802904694"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" alt="" title="scotbab">
+
+<noscript><img src="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/16371699087802904694" rel="nofollow">scotbab</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-2397479500129621995">
+<p>
+HI Deepak, Thanks for your reply, can you tell which are the required jar's, or do we follow a try and error method..
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1513592403975#c2397479500129621995" title="comment permalink">
+2:20 AM
+</a>
+<span class="item-control blog-admin pid-1452181665">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=2397479500129621995" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author blog-author" id="c2588335428109492777">
+<a name="c2588335428109492777"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/04324456947895848248" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-2588335428109492777-04324456947895848248"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" alt="" title="Deepak Shetty">
+
+<noscript><img src="//lh5.googleusercontent.com/-k_m9uyuwwBw/AAAAAAAAAAI/AAAAAAAATps/Pr_owCW355U/s35-c/photo.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/04324456947895848248" rel="nofollow">Deepak Shetty</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-2588335428109492777">
+<p>
+Unfortunately I do not have a env setup right now . I believe the jar is something like transport- jar. But google will usually be able to tell you for every class that gives you an issue
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1513793173183#c2588335428109492777" title="comment permalink">
+10:06 AM
+</a>
+<span class="item-control blog-admin pid-512605801">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=2588335428109492777" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+<dt class="comment-author " id="c689039863142548408">
+<a name="c689039863142548408"></a>
+<div class="avatar-image-container vcard"><span dir="ltr"><a href="https://www.blogger.com/profile/16371699087802904694" target="" rel="nofollow" onclick="" class="avatar-hovercard" id="av-689039863142548408-16371699087802904694"><img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/blank(1).gif" width="35" height="35" class="delayLoad" style="" longdesc="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" alt="" title="scotbab">
+
+<noscript><img src="//3.bp.blogspot.com/_Ta05_qHo2UY/SauH1STc9JI/AAAAAAAAACk/7UyBPzyVQbs/S45-s35/krishna.jpg" width="35" height="35" class="photo" alt=""></noscript></a></span></div>
+<a href="https://www.blogger.com/profile/16371699087802904694" rel="nofollow">scotbab</a>
+said...
+</dt>
+<dd class="comment-body" id="Blog1_cmt-689039863142548408">
+<p>
+Thanks Deepak, I was able to resolve the issue after compiling the source code you have provided.
+</p>
+</dd>
+<dd class="comment-footer">
+<span class="comment-timestamp">
+<a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html?showComment=1515742038875#c689039863142548408" title="comment permalink">
+11:27 PM
+</a>
+<span class="item-control blog-admin pid-1452181665">
+<a class="comment-delete" href="https://www.blogger.com/delete-comment.g?blogID=10045102&amp;postID=689039863142548408" title="Delete Comment">
+<img src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon_delete13.gif">
+</a>
+</span>
+</span>
+</dd>
+</dl>
+</div>
+<p class="comment-footer">
+<a href="https://www.blogger.com/comment.g?blogID=10045102&amp;postID=4725181315293700707" onclick="">Post a Comment</a>
+</p>
+<div id="backlinks-container">
+<div id="Blog1_backlinks-container">
+</div>
+</div>
+</div>
+</div>
+
+        </div></div>
+      
+</div>
+<div class="blog-pager" id="blog-pager">
+<span id="blog-pager-newer-link">
+<a class="blog-pager-newer-link" href="http://theworkaholic.blogspot.com/2015/09/jmeter-commiter.html" id="Blog1_blog-pager-newer-link" title="Newer Post">Newer Post</a>
+</span>
+<span id="blog-pager-older-link">
+<a class="blog-pager-older-link" href="http://theworkaholic.blogspot.com/2014/01/modifying-jmeter-scripts-programatically.html" id="Blog1_blog-pager-older-link" title="Older Post">Older Post</a>
+</span>
+<a class="home-link" href="http://theworkaholic.blogspot.com/">Home</a>
+</div>
+<div class="clear"></div>
+<div class="post-feeds">
+<div class="feed-links">
+Subscribe to:
+<a class="feed-link" href="http://theworkaholic.blogspot.com/feeds/4725181315293700707/comments/default" target="_blank" type="application/atom+xml">Post Comments (Atom)</a>
+</div>
+</div>
+</div></div>
+</div>
+<div id="sidebar-wrapper">
+<div class="sidebar section" id="sidebar"><div class="widget BlogArchive" data-version="1" id="BlogArchive1">
+<h2>Blog Archive</h2>
+<div class="widget-content">
+<div id="ArchiveList">
+<div id="BlogArchive1_ArchiveList">
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2016/">
+2016
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2016/06/">
+June
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">
+
+        ▼&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2015/">
+2015
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2015/09/">
+September
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">
+
+        ▼&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2015/05/">
+May
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+<ul class="posts">
+<li><a href="http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html">Graphs for Jmeter using Elasticsearch and Kibana</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2014/">
+2014
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2014/01/">
+January
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2013/">
+2013
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2013/04/">
+April
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2013/03/">
+March
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2012/">
+2012
+</a>
+<span class="post-count" dir="ltr">(4)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2012/05/">
+May
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2012/04/">
+April
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2012/02/">
+February
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/">
+2011
+</a>
+<span class="post-count" dir="ltr">(6)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/11/">
+November
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/09/">
+September
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/08/">
+August
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/07/">
+July
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/02/">
+February
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2011/01/">
+January
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/">
+2010
+</a>
+<span class="post-count" dir="ltr">(19)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/11/">
+November
+</a>
+<span class="post-count" dir="ltr">(4)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/10/">
+October
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/09/">
+September
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/08/">
+August
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/06/">
+June
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/05/">
+May
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/04/">
+April
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/03/">
+March
+</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/02/">
+February
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2010/01/">
+January
+</a>
+<span class="post-count" dir="ltr">(4)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/">
+2009
+</a>
+<span class="post-count" dir="ltr">(22)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/12/">
+December
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/11/">
+November
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/10/">
+October
+</a>
+<span class="post-count" dir="ltr">(7)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/09/">
+September
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/08/">
+August
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/06/">
+June
+</a>
+<span class="post-count" dir="ltr">(7)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2009/04/">
+April
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2008/">
+2008
+</a>
+<span class="post-count" dir="ltr">(7)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2008/02/">
+February
+</a>
+<span class="post-count" dir="ltr">(5)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2008/01/">
+January
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2007/">
+2007
+</a>
+<span class="post-count" dir="ltr">(3)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2007/02/">
+February
+</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2006/">
+2006
+</a>
+<span class="post-count" dir="ltr">(4)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2006/11/">
+November
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2006/08/">
+August
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2006/06/">
+June
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/">
+2005
+</a>
+<span class="post-count" dir="ltr">(7)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/12/">
+December
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/11/">
+November
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/05/">
+May
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/04/">
+April
+</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+        ►&nbsp;
+      
+</span>
+</a>
+<a class="post-count-link" href="http://theworkaholic.blogspot.com/2005/03/">
+March
+</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=10045102&amp;widgetType=BlogArchive&amp;widgetId=BlogArchive1&amp;action=editWidget&amp;sectionId=sidebar" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;BlogArchive1&quot;));" rel="nofollow" target="configBlogArchive1" title="Edit">
+<img alt="" height="18" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div><div class="widget Label" data-version="1" id="Label1">
+<h2>Labels</h2>
+<div class="widget-content list-label-widget-content">
+<ul>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/agile">agile</a>
+<span dir="ltr">(4)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Code">Code</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Creational">Creational</a>
+<span dir="ltr">(4)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/design">design</a>
+<span dir="ltr">(8)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Design%20Patterns">Design Patterns</a>
+<span dir="ltr">(6)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Elasticsearch">Elasticsearch</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/ethics">ethics</a>
+<span dir="ltr">(2)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Google%20Juice">Google Juice</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/interviews">interviews</a>
+<span dir="ltr">(5)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/java">java</a>
+<span dir="ltr">(8)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/JMeter">JMeter</a>
+<span dir="ltr">(34)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/JSON">JSON</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Kibana">Kibana</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/management">management</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/memory%20leak%20diagnosis">memory leak diagnosis</a>
+<span dir="ltr">(1)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Performance%20Tuning">Performance Tuning</a>
+<span dir="ltr">(4)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/testing">testing</a>
+<span dir="ltr">(32)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/weblogic">weblogic</a>
+<span dir="ltr">(7)</span>
+</li>
+<li>
+<a dir="ltr" href="http://theworkaholic.blogspot.com/search/label/Weblogic%20Portal">Weblogic Portal</a>
+<span dir="ltr">(5)</span>
+</li>
+</ul>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=10045102&amp;widgetType=Label&amp;widgetId=Label1&amp;action=editWidget&amp;sectionId=sidebar" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Label1&quot;));" rel="nofollow" target="configLabel1" title="Edit">
+<img alt="" height="18" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div><div class="widget LinkList" data-version="1" id="LinkList1">
+<h2>My other blogs</h2>
+<div class="widget-content">
+<ul>
+<li><a href="http://abookworm.blogspot.com/">Bookworm</a></li>
+<li><a href="http://deepakshetty.blogspot.com/">Cerebration</a></li>
+<li><a href="http://imaginarytales.blogspot.com/">Story Scripts</a></li>
+</ul>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=10045102&amp;widgetType=LinkList&amp;widgetId=LinkList1&amp;action=editWidget&amp;sectionId=sidebar" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;LinkList1&quot;));" rel="nofollow" target="configLinkList1" title="Edit">
+<img alt="" height="18" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div>
+<div class="widget AdSense" data-version="1" id="AdSense1">
+<div class="widget-content">
+<script type="text/javascript"><!--
+google_ad_client="pub-1447444206019163";
+google_ad_host="pub-1556223355139109";
+google_ad_host_channel="00000";
+google_alternate_ad_url="http://www.blogger.com/img/blogger_ad160x600.html";
+google_ad_width=160;
+google_ad_height=600;
+google_ad_format="160x600_as";
+google_ad_type="text_image";
+google_color_border="FFFFFF";
+google_color_bg="FFFFFF";
+google_color_link="999999";
+google_color_url="5588AA";
+google_color_text="666666";
+//--></script>
+<script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/f(4).txt">
+</script><ins id="aswift_0_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><iframe width="160" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:160px;height:600px;" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/saved_resource.html"></iframe></ins></ins>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=10045102&amp;widgetType=AdSense&amp;widgetId=AdSense1&amp;action=editWidget&amp;sectionId=sidebar" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;AdSense1&quot;));" rel="nofollow" target="configAdSense1" title="Edit">
+<img alt="" height="18" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div></div>
+</div>
+<!-- spacer for skins that want sidebar and main to be the same height-->
+<div class="clear">&nbsp;</div>
+</div>
+<!-- end content-wrapper -->
+<div id="footer-wrapper">
+<div class="footer no-items section" id="footer"></div>
+</div>
+</div></div>
+<!-- end outer-wrapper -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/ga.js.download" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2683804-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/1556530915-widgets.js.download"></script>
+<script type="text/javascript">
+window['__wavt'] = 'AOuZoY4E0sNXwnCDWLmBshsbAdu8vKwUPg:1567663787143';_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d10045102','//theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html','10045102');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '10045102', 'title': 'Workaholic', 'url': 'http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html', 'canonicalUrl': 'http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html', 'homepageUrl': 'http://theworkaholic.blogspot.com/', 'searchUrl': 'http://theworkaholic.blogspot.com/search', 'canonicalHomepageUrl': 'http://theworkaholic.blogspot.com/', 'blogspotFaviconUrl': 'http://theworkaholic.blogspot.com/favicon.ico', 'bloggerUrl': 'https://www.blogger.com', 'hasCustomDomain': false, 'httpsEnabled': true, 'enabledCommentProfileImages': true, 'gPlusViewType': 'FILTERED_POSTMOD', 'adultContent': false, 'analyticsAccountNumber': '', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'languageDirection': 'ltr', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'feedLinks': '\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Workaholic - Atom\x22 href\x3d\x22http://theworkaholic.blogspot.com/feeds/posts/default\x22 /\x3e\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/rss+xml\x22 title\x3d\x22Workaholic - RSS\x22 href\x3d\x22http://theworkaholic.blogspot.com/feeds/posts/default?alt\x3drss\x22 /\x3e\n\x3clink rel\x3d\x22service.post\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Workaholic - Atom\x22 href\x3d\x22https://www.blogger.com/feeds/10045102/posts/default\x22 /\x3e\n\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Workaholic - Atom\x22 href\x3d\x22http://theworkaholic.blogspot.com/feeds/4725181315293700707/comments/default\x22 /\x3e\n', 'meTag': '', 'adsenseClientId': 'ca-pub-1447444206019163', 'adsenseHostId': 'ca-host-pub-1556223355139109', 'adsenseHasAds': true, 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/a4a9e1a2fd39b029', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'disableGComments': true, 'sharing': {'platforms': [{'name': 'Get link', 'key': 'link', 'shareMessage': 'Get link', 'target': ''}, {'name': 'Facebook', 'key': 'facebook', 'shareMessage': 'Share to Facebook', 'target': 'facebook'}, {'name': 'BlogThis!', 'key': 'blogThis', 'shareMessage': 'BlogThis!', 'target': 'blog'}, {'name': 'Twitter', 'key': 'twitter', 'shareMessage': 'Share to Twitter', 'target': 'twitter'}, {'name': 'Pinterest', 'key': 'pinterest', 'shareMessage': 'Share to Pinterest', 'target': 'pinterest'}, {'name': 'Email', 'key': 'email', 'shareMessage': 'Email', 'target': 'email'}], 'disableGooglePlus': true, 'googlePlusShareButtonWidth': 300, 'googlePlusBootstrap': '\x3cscript type\x3d\x22text/javascript\x22\x3ewindow.___gcfg \x3d {\x27lang\x27: \x27en\x27};\x3c/script\x3e'}, 'hasCustomJumpLinkMessage': false, 'jumpLinkMessage': 'Read more', 'pageType': 'item', 'postId': '4725181315293700707', 'postImageThumbnailUrl': 'http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/s72-c/PostTemplate.png', 'postImageUrl': 'http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/s640/PostTemplate.png', 'pageName': 'Graphs for Jmeter using Elasticsearch and Kibana', 'pageTitle': 'Workaholic: Graphs for Jmeter using Elasticsearch and Kibana'}}, {'name': 'features', 'data': {'sharing_get_link_dialog': 'true', 'sharing_native': 'false'}}, {'name': 'messages', 'data': {'edit': 'Edit', 'linkCopiedToClipboard': 'Link copied to clipboard!', 'ok': 'Ok', 'postLink': 'Post Link'}}, {'name': 'template', 'data': {'name': 'custom', 'localizedName': 'Custom', 'isResponsive': false, 'isAlternateRendering': false, 'isCustom': true}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\x3dclassic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\x3dflipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\x3dmagazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\x3dmosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\x3dsidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\x3dsnapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\x3dtimeslide'}, 'isMobile': false, 'title': 'Graphs for Jmeter using Elasticsearch and Kibana', 'description': ' Disclaimer : I have just done some initial tests with  Elasticsearch (Thank you Google) - I have no production experience with  it and I ha...', 'featuredImage': 'http://4.bp.blogspot.com/-c-iOUIBCka4/VWZu7ZvxlFI/AAAAAAAAUoc/m-bcpKEo9Uo/s640/PostTemplate.png', 'url': 'http://theworkaholic.blogspot.com/2015/05/graphs-for-jmeter-using-elasticsearch.html', 'type': 'item', 'isSingleItem': true, 'isMultipleItems': false, 'isError': false, 'isPage': false, 'isPost': true, 'isHomepage': false, 'isArchive': false, 'isLabelSearch': false, 'postId': 4725181315293700707}}]);
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/1994683291-lbx.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/368954415-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar', document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': 'Loading\x26hellip;'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_LabelView', new _WidgetInfo('Label1', 'sidebar', document.getElementById('Label1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_LinkListView', new _WidgetInfo('LinkList1', 'sidebar', document.getElementById('LinkList1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AdSenseView', new _WidgetInfo('AdSense1', 'sidebar', document.getElementById('AdSense1'), {}, 'displayModeFull'));
+</script>
+
+<iframe name="oauth2relay424199986" id="oauth2relay424199986" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/postmessageRelay.html" tabindex="-1" aria-hidden="true" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe><link type="text/css" rel="stylesheet" href="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/368954415-lightbox_bundle.css"><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/saved_resource(1).html"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_7885793520546" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/saved_resource(2).html"></iframe><script type="text/javascript" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/1994683291-lbx.js.download"></script></body><iframe id="google_shimpl" style="display: none;" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/saved_resource(3).html"></iframe><iframe id="google_esf" name="google_esf" src="./Workaholic_ Graphs for Jmeter using Elasticsearch and Kibana_files/zrt_lookup.html" data-ad-client="ca-pub-1447444206019163" style="display: none;"></iframe></html>
